@@ -24,7 +24,7 @@ Only download content you own or that is licensed for free use.
 ---
 
 ## Download
-👉 [Get the latest release here (Win)](https://github.com/st155213/media-url-downloader-Python/releases)
+👉 [Get the latest release here (Win)](https://github.com/DimitriosPournarkas/media-url-downloader-Python/releases)
 
 Download the `.exe` file from the releases page and run it directly.  
 No Python installation required.  
