@@ -251,7 +251,20 @@ def download_file_thread(url, filename, format_type="mp3"):
             "--extractor-args", "youtube:player_client=android,web",
             url
         ]
-    else:
+    elif format_type == "wav":
+        cmd = [
+            ytdlp_cmd,
+            "-x",
+            "--audio-format", "wav",
+            "--audio-quality", "0",
+            "--ffmpeg-location", bin_path,
+            "-o", out_path,
+            "--newline",
+            "--no-playlist",
+            "--extractor-args", "youtube:player_client=android,web",
+            url
+        ]
+    else:  # mp4
         cmd = [
             ytdlp_cmd,
             "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
@@ -313,6 +326,15 @@ def download_mp3():
     filename = clean_filename(title, ".mp3")
     threading.Thread(target=download_file_thread, args=(url, filename, "mp3"), daemon=True).start()
 
+def download_wav():
+    url = entry_url.get().strip()
+    title = entry_name.get().strip()
+    if not url or not title:
+        messagebox.showwarning("Input error", "Please enter URL and filename.")
+        return
+    filename = clean_filename(title, ".wav")
+    threading.Thread(target=download_file_thread, args=(url, filename, "wav"), daemon=True).start()
+
 def download_mp4():
     url = entry_url.get().strip()
     title = entry_name.get().strip()
@@ -351,12 +373,15 @@ tk.Label(main_frame, text="Save as:").grid(row=1, column=0, padx=10, pady=5, sti
 entry_name = tk.Entry(main_frame, width=50)
 entry_name.grid(row=1, column=1, padx=10, pady=5)
 
-# Download buttons frame
+# Download buttons frame - UPDATED with 3 buttons
 download_frame = tk.Frame(main_frame)
-download_frame.grid(row=2, column=1, pady=10, sticky="w")
+download_frame.grid(row=2, column=0, columnspan=2, pady=10, sticky="w", padx=10)
 
 btn_download_mp3 = tk.Button(download_frame, text="Download MP3", command=download_mp3, width=15, bg="#2196F3", fg="white")
 btn_download_mp3.pack(side="left", padx=5)
+
+btn_download_wav = tk.Button(download_frame, text="Download WAV", command=download_wav, width=15, bg="#FF9800", fg="white")
+btn_download_wav.pack(side="left", padx=5)
 
 btn_download_mp4 = tk.Button(download_frame, text="Download MP4", command=download_mp4, width=15, bg="#2196F3", fg="white")
 btn_download_mp4.pack(side="left", padx=5)
